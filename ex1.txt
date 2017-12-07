@@ -1,0 +1,32 @@
+//ESS_LOCALE English_UnitedStates.Latin1@Binary
+/* Etape 1: Réglage des options*/ 
+SET UPDATECALC OFF;
+SET AGGMISSG ON;
+
+/* Alimenter le scénario forecast à partir du scénario actual de janvier à septembre et à partir du budget de octobre à décembre.*/
+FIX(@REMOVE(@RELATIVE("Account",0),@RELATIVE("PRICE",0)),
+			MTD,
+			KLOC,
+			"FY16",
+			@RELATIVE("Destination",0),
+			@RELATIVE("Product",0))
+
+			FIX(M01:M09)
+					DATACOPY ACTUAL TO FORECAST;
+			ENDFIX;
+
+			FIX(M10:M12)
+					DATACOPY BUDGET TO FORECAST ;
+			ENDFIX;
+
+ENDFIX;
+
+FIX(@REMOVE(@RELATIVE("Account",0),@RELATIVE("PRICE",0)),
+			MTD,
+			KLOC,
+			"FY16",
+			M01:M12,
+			FORECAST)
+				AGG("Destination","Product");
+ENDFIX;
+

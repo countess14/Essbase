@@ -1,0 +1,26 @@
+//ESS_LOCALE English_UnitedStates.Latin1@Binary
+/*4) Le nombre de produits réellement achetés (Purchassed Units) correspond 
+aux commandes passées (Ordered Units) ajustées d'un taux d'érosion (% Yield). 
+Ce taux d'érosion sera de 5% pour les produits de type TEXTILE et de 8% sur les produits de type MAROQUINERIE.*/
+
+/* Etape 1: Réglage des options*/ 
+SET UPDATECALC OFF;
+
+FIX(
+			MTD,
+			KLOC,
+			"FY16",
+			FRANCE,
+			FORECAST,
+			&MOIS_PREV) /* cf variable de substitution*/
+
+			FIX(@RELATIVE("WOLP",0))
+"PUR_UNITS"=  "ORD_UNITS"*  (1-"RTYLD"->"UNDWOLP"->"Begbalance");
+     ENDFIX
+
+		FIX(@RELATIVE("LEA",0))
+"PUR_UNITS"=  "ORD_UNITS"* (1-"RTYLD"->"UNDLEA"->"Begbalance");
+   ENDFIX
+
+ENDFIX
+															

@@ -1,0 +1,28 @@
+//ESS_LOCALE English_UnitedStates.Latin1@Binary
+/* Etape 1: Réglage des options*/ 
+SET UPDATECALC OFF;
+
+
+/*3) Saisissez les commandes anuelles ("Ordered Units) puis répartissez les sur les mois prévisionnels au prorata de l'ACTUAL N-1 (seul le reste à faire est à répartir). 
+Le mois de décembre, doit être calculé par différence entre le total annuel saisi et la somme des mois précédents.*/
+
+FIX(
+			MTD,
+			KLOC,
+			"FY16",
+			FRANCE,
+			FORECAST,
+			&MOIS_PREV, /* cf variable de substitution*/
+			@RELATIVE("Product",0))
+
+		"ORD_UNITS"=  ("ORD_UNITS"->"BEGBALANCE"- 
+															@SUMRANGE(ORD_UNITS, @REMOVE(M01:M12,&MOIS_PREV)))*
+
+
+("ORD_UNITS"->"ACTUAL"/ @SUMRANGE(ORD_UNITS-> ACTUAL,&MOIS_PREV));
+
+
+;
+
+		
+ENDFIX;

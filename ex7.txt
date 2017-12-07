@@ -1,0 +1,12 @@
+//ESS_LOCALE English_UnitedStates.Latin1@Binary
+SET DATAEXPORTOPTIONS 
+  { 
+DataExportLevel ALL ;
+
+DataExportColFormat ON ;
+
+  };
+
+FIX ("FY15");
+DATAEXPORT "File" "," "E:\FOrmation\AllDataColFormatScript.txt";
+ENDFIX;
