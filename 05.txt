@@ -1,0 +1,48 @@
+//ESS_LOCALE English_UnitedStates.Latin1@Binary
+SET UPDATECALC OFF;
+fix("MTD","KLOC","FY15","Forecast","FR",@relative(wolp,0), @relative(lea,0))
+
+	FIX("M01":"M12")
+			CLEARDATA "PRICE_INC";
+
+	ENDFIX;
+
+	FIX("BEGBALANCE")
+		"PRICE_INC"(
+				IF("ACT_MONTH"==1)
+					"PRICE_INC"->"M01" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==2)
+					"PRICE_INC"->"M02" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==3)
+					"PRICE_INC"->"M03" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==4)
+					"PRICE_INC"->"M04" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==5)
+					"PRICE_INC"->"M05" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==6)
+					"PRICE_INC"->"M06" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==7)
+					"PRICE_INC"->"M07" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==8)
+					"PRICE_INC"->"M08" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==9)
+					"PRICE_INC"->"M09" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==10)
+					"PRICE_INC"->"M10" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==11)
+					"PRICE_INC"->"M11" = "PRICE_INC";
+				ELSEIF("ACT_MONTH"==12)
+					"PRICE_INC"->"M12" = "PRICE_INC";
+				ENDIF;
+			);
+	ENDFIX;
+
+	FIX("M01":"M12")
+		"PRICE_INC"(
+			IF(@PRIOR("PRICE_INC",1,"M01":"M12") + 1 <>1)
+				"PRICE_INC" = @PRIOR("PRICE_INC",1,"M01":"M12");
+			ENDIF;
+			);
+
+	ENDFIX;
+endfix;
